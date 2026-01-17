@@ -1,0 +1,27 @@
+{
+  "message": "success",
+  "title": "Simple Chicken Salad",
+  "totalCalories": 1449,
+  "breakdown": [
+    {
+      "original": "200g chicken breast",
+      "match": "Chicken breast tenders, breaded, uncooked",
+      "calories": 263
+    },
+    {
+      "original": "100g lettuce",
+      "match": "Lettuce, iceberg, raw",
+      "calories": 0
+    },
+    {
+      "original": "50g tomatoes",
+      "match": "Tomato powder",
+      "calories": 302
+    },
+    {
+      "original": "1 tablespoon olive oil",
+      "match": "Oil, corn, peanut, and olive",
+      "calories": 884
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+.loading {
+  display: none;
+}
+.active {
+  background-color: #009966;
+  color: #ffff;
+}

@@ -1,0 +1,80 @@
+{
+  "mealData": {
+    "message": "success",
+    "title": "Sticky Chicken",
+    "totalCalories": 2132,
+    "breakdown": [
+      {
+        "original": "8 Chicken drumsticks",
+        "match": "Chicken, drumstick, meat and skin, raw",
+        "calories": 0
+      },
+      {
+        "original": "2 tblsp Soy Sauce",
+        "match": "Soy sauce made from soy (tamari)",
+        "calories": 60
+      },
+      {
+        "original": "1 tablespoon Honey",
+        "match": "Honey",
+        "calories": 304
+      },
+      {
+        "original": "1 tblsp Olive Oil",
+        "match": "Oil, corn, peanut, and olive",
+        "calories": 884
+      },
+      {
+        "original": "1 teaspoon Tomato Puree",
+        "match": "Tomato, puree, canned",
+        "calories": 0
+      },
+      {
+        "original": "1 tbsp Dijon Mustard",
+        "match": "Oil, mustard",
+        "calories": 884
+      }
+    ]
+  },
+  "meal": {
+    "id": "53110",
+    "name": "Sticky Chicken",
+    "category": "Chicken",
+    "area": "Australian",
+    "instructions": [
+      "Make 3 slashes on each of the drumsticks. Mix together the soy, honey, oil, tomato purée and mustard. Pour this mixture over the chicken and coat thoroughly. Leave to marinate for 30 mins at room temperature or overnight in the fridge. Heat oven to 200C/fan 180C/gas 6.",
+      "Tip the chicken into a shallow roasting tray and cook for 35 mins, turning occasionally, until the chicken is tender and glistening with the marinade."
+    ],
+    "thumbnail": "https://www.themealdb.com/images/media/meals/cj56fs1762340001.jpg",
+    "tags": [],
+    "youtube": "https://www.youtube.com/watch?v=o8tz2BOltTg",
+    "source": "https://www.bbcgoodfood.com/recipes/sticky-chicken",
+    "ingredients": [
+      {
+        "ingredient": "Chicken drumsticks",
+        "measure": "8"
+      },
+      {
+        "ingredient": "Soy Sauce",
+        "measure": "2 tblsp"
+      },
+      {
+        "ingredient": "Honey",
+        "measure": "1 tablespoon"
+      },
+      {
+        "ingredient": "Olive Oil",
+        "measure": "1 tblsp"
+      },
+      {
+        "ingredient": "Tomato Puree",
+        "measure": "1 teaspoon"
+      },
+      {
+        "ingredient": "Dijon Mustard",
+        "measure": "1 tbsp"
+      }
+    ]
+  },
+  "date": "1/17/2026, 4:59:09 PM"
+}
