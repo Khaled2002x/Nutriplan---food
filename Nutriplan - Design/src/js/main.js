@@ -32,6 +32,7 @@ let dom = {
   sidebar_close_btn: document.getElementById("sidebar-close-btn"),
   lookup_barcode_btn: document.getElementById("lookup-barcode-btn"),
   barcode_input: document.getElementById("barcode-input"),
+  product_categories: document.getElementById("product-categories"),
 };
 
 // handel side bar
@@ -70,15 +71,17 @@ dom.nav_link.forEach((nav) => {
 document.addEventListener("DOMContentLoaded", () => {
   allCountry();
   MealType();
+  SearchbyproductCategory();
   displayRecipes(
-    "https://nutriplan-api.vercel.app/api/meals/search?q=chicken&page=1&limit=25"
+    "https://nutriplan-api.vercel.app/api/meals/search?q=chicken&page=1&limit=25",
   );
 });
 document.addEventListener("load", () => {
   allCountry();
   MealType();
+
   displayRecipes(
-    "https://nutriplan-api.vercel.app/api/meals/search?q=chicken&page=1&limit=25"
+    "https://nutriplan-api.vercel.app/api/meals/search?q=chicken&page=1&limit=25",
   );
 });
 //dynamic fetch function
@@ -98,7 +101,7 @@ async function fetchData(apiLink) {
 //display meals country
 async function allCountry() {
   let allData = await fetchData(
-    "https://nutriplan-api.vercel.app/api/meals/areas"
+    "https://nutriplan-api.vercel.app/api/meals/areas",
   );
 
   let buttons = `<button
@@ -137,15 +140,13 @@ dom.countryBUtton.addEventListener("click", (e) => {
   const area = e.target.closest(".area");
   if (!area) return;
   const target = area.dataset.area;
-  console.log(target);
-
   if (target === "all") {
     displayRecipes(
-      "https://nutriplan-api.vercel.app/api/meals/search?q=chicken&page=1&limit=25"
+      "https://nutriplan-api.vercel.app/api/meals/search?q=chicken&page=1&limit=25",
     );
   } else {
     displayRecipes(
-      `https://nutriplan-api.vercel.app/api/meals/filter?area=${target}&page=1&limit=25`
+      `https://nutriplan-api.vercel.app/api/meals/filter?area=${target}&page=1&limit=25`,
     );
   }
 });
@@ -153,7 +154,7 @@ dom.countryBUtton.addEventListener("click", (e) => {
 //display meal type
 async function MealType() {
   let mealType = await fetchData(
-    `https://nutriplan-api.vercel.app/api/meals/categories`
+    `https://nutriplan-api.vercel.app/api/meals/categories`,
   );
   let response = await mealType.results;
   let mealTypebox = "";
@@ -185,7 +186,7 @@ dom.categories_grid.addEventListener("click", (e) => {
   const target = card.dataset.category;
 
   displayRecipes(
-    `https://nutriplan-api.vercel.app/api/meals/filter?category=${target}&page=1&limit=25`
+    `https://nutriplan-api.vercel.app/api/meals/filter?category=${target}&page=1&limit=25`,
   );
 });
 let allmeal = [];
@@ -258,7 +259,7 @@ async function displayRecipes(apiLink) {
 }
 async function AdvancedSearch(value) {
   let data = await fetchData(
-    "https://nutriplan-api.vercel.app/api/meals/random?count=30"
+    "https://nutriplan-api.vercel.app/api/meals/random?count=30",
   );
   if (!data || !data.results) {
     console.log("no data found");
@@ -285,7 +286,7 @@ dom.search_input.addEventListener("input", (e) => {
   let value = e.target.value;
   if (!value.trim()) {
     return displayRecipes(
-      "https://nutriplan-api.vercel.app/api/meals/random?count=30"
+      "https://nutriplan-api.vercel.app/api/meals/random?count=30",
     );
   }
   console.log("hi");
@@ -316,6 +317,7 @@ dom.meal_details.addEventListener("click", (e) => {
   dom.search_filters_section.classList.remove("hidden");
 });
 let datalogged = {};
+//display meal details
 async function ShowMealDetails(id) {
   let meal = [];
   for (let i = 0; i < allmeal.length; i++) {
@@ -323,6 +325,8 @@ async function ShowMealDetails(id) {
       meal.push(allmeal[i]);
     }
   }
+  console.log(meal);
+
   const mealData = await fetchmealproperty(meal);
   datalogged = [
     {
@@ -380,9 +384,7 @@ async function ShowMealDetails(id) {
                   </span>
                   <span class="flex items-center gap-2">
                     <i class="fa-solid fa-fire"></i>
-                    <span id="hero-calories">${
-                      (await mealData.totalCalories) / 4
-                    } cal/serving</span>
+                    <span id="hero-calories">${await mealData.data.perServing.calories} cal/serving</span>
                   </span>
                 </div>
               </div>
@@ -474,10 +476,9 @@ async function ShowMealDetails(id) {
                     class="text-center py-4 mb-4 bg-linear-to-br from-emerald-50 to-teal-50 rounded-xl"
                   >
                     <p class="text-sm text-gray-600">Calories per serving</p>
-                    <p class="text-4xl font-bold text-emerald-600">${
-                      (await mealData.totalCalories) / 4
-                    }</p>
-                    <p class="text-xs text-gray-500 mt-1">Total: ${await mealData.totalCalories} cal</p>
+                    <p class="text-4xl font-bold text-emerald-600">${await mealData
+                      .data.perServing.calories}</p>
+                    <p class="text-xs text-gray-500 mt-1">Total: ${await mealData.data.totals.calories} cal</p>
                   </div>
 
                   <div class="space-y-4">
@@ -486,7 +487,7 @@ async function ShowMealDetails(id) {
                         <div class="w-3 h-3 rounded-full bg-emerald-500"></div>
                         <span class="text-gray-700">Protein</span>
                       </div>
-                      <span class="font-bold text-gray-900">42g</span>
+                      <span class="font-bold text-gray-900">${await mealData.data.perServing.protein}g</span>
                     </div>
                     <div class="w-full bg-gray-100 rounded-full h-2">
                       <div
@@ -500,7 +501,7 @@ async function ShowMealDetails(id) {
                         <div class="w-3 h-3 rounded-full bg-blue-500"></div>
                         <span class="text-gray-700">Carbs</span>
                       </div>
-                      <span class="font-bold text-gray-900">52g</span>
+                      <span class="font-bold text-gray-900">${await mealData.data.perServing.carbs}g</span>
                     </div>
                     <div class="w-full bg-gray-100 rounded-full h-2">
                       <div
@@ -514,7 +515,7 @@ async function ShowMealDetails(id) {
                         <div class="w-3 h-3 rounded-full bg-purple-500"></div>
                         <span class="text-gray-700">Fat</span>
                       </div>
-                      <span class="font-bold text-gray-900">8g</span>
+                      <span class="font-bold text-gray-900">${await mealData.data.perServing.fat}g</span>
                     </div>
                     <div class="w-full bg-gray-100 rounded-full h-2">
                       <div
@@ -528,7 +529,7 @@ async function ShowMealDetails(id) {
                         <div class="w-3 h-3 rounded-full bg-orange-500"></div>
                         <span class="text-gray-700">Fiber</span>
                       </div>
-                      <span class="font-bold text-gray-900">4g</span>
+                      <span class="font-bold text-gray-900">${await mealData.data.perServing.fiber}g</span>
                     </div>
                     <div class="w-full bg-gray-100 rounded-full h-2">
                       <div
@@ -542,7 +543,7 @@ async function ShowMealDetails(id) {
                         <div class="w-3 h-3 rounded-full bg-pink-500"></div>
                         <span class="text-gray-700">Sugar</span>
                       </div>
-                      <span class="font-bold text-gray-900">12g</span>
+                      <span class="font-bold text-gray-900">${await mealData.data.perServing.sugar}g</span>
                     </div>
                     <div class="w-full bg-gray-100 rounded-full h-2">
                       <div
@@ -618,6 +619,7 @@ function returninstructions(arr) {
   }
   return box;
 }
+//recipe details fetch
 async function fetchmealproperty(meal) {
   try {
     const ingredientData = meal[0].ingredients.map((m) => {
@@ -632,10 +634,10 @@ async function fetchmealproperty(meal) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          title: meal[0].name,
+          recipeName: meal[0].name,
           ingredients: ingredientData,
         }),
-      }
+      },
     );
     if (!data.ok) {
       throw new Error("check your connection");
@@ -720,12 +722,12 @@ async function displayproductscanner(value) {
   let result;
   if (returntypeofinput(value) == "number") {
     data = await fetchData(
-      `https://nutriplan-api.vercel.app/api/products/barcode/${value}`
+      `https://nutriplan-api.vercel.app/api/products/barcode/${value}`,
     );
     result = data.result ? [data.result] : [];
   } else if (returntypeofinput(value) == "string") {
     data = await fetchData(
-      `https://nutriplan-api.vercel.app/api/products/search?q=${value}&page=1&limit=24`
+      `https://nutriplan-api.vercel.app/api/products/search?q=${value}&page=1&limit=24`,
     );
     result = data.results ?? [];
   } else {
@@ -736,7 +738,7 @@ async function displayproductscanner(value) {
   for (let i = 0; i < result.length; i++) {
     box += ` <div
                 class="product-card bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all cursor-pointer group"
-                data-barcode="${result[i].barcode || result.barcode}"
+                data-barcode="${result[i].barcode}"
               >
                 <div
                   class="relative h-40 bg-gray-100 flex items-center justify-center overflow-hidden"
@@ -849,4 +851,29 @@ dom.lookup_barcode_btn.addEventListener("click", () => {
   console.log("hi");
 
   displayproductscanner(dom.barcode_input.value);
+});
+async function SearchbyproductCategory() {
+  let data = await fetchData(
+    `https://nutriplan-api.vercel.app/api/products/categories`,
+  );
+  let response = data.results;
+  let box = ``;
+  for (let i = 0; i < 8; i++) {
+    box += `   <button
+                  data-category=${response[i].name}
+                class="product-category-btn px-4 py-2 bg-emerald-100 text-emerald-700 rounded-lg text-sm font-medium whitespace-nowrap hover:bg-emerald-200 transition-all"
+              >
+                <i class="fa-solid fa-cookie mr-1.5"></i>${response[i].name}
+              </button>`;
+  }
+  return (dom.product_categories.innerHTML = box);
+}
+dom.product_categories.addEventListener("click", async (e) => {
+  let target = e.target.closest(".product-category-btn");
+  if (!target) {
+    return;
+  } else {
+    let choosen = target.dataset.category;
+    return displayproductscanner(choosen);
+  }
 });
